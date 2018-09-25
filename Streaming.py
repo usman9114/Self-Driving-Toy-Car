@@ -18,8 +18,9 @@ def stream_video():
         print ("Connection from: ", client_address)
         print ("Streaming...")
         print ("Press 'q' to exit")
-
-        stream_bytes = bytes()
+        stream = urlopen('http://192.168.137.8:8080/stream/video.mjpeg')
+        bytes = bytes()
+        #stream_bytes = bytes()
 
 
         while True:

@@ -25,13 +25,15 @@ num_channel = 1
 label = []
 img_list_data =[]
 
-path = getcwd()+'\\data_set'
+path = getcwd()+'\\22_dataset'
 
 
 files_name =[f for f in listdir(path) if isfile(join(path, f))
             and f != '.DS_Store']
 print('\nTotal Number of images in Dataset {}'.format(len(files_name)))
 
+
+# 1. Pre-Processing
 for name in files_name:
     input_image = cv2.imread(join(path,name))
     input_image = cv2.cvtColor(input_image,cv2.COLOR_BGR2GRAY)
@@ -50,7 +52,7 @@ if num_channel ==1:
 
 # defining classes
 num_classes = 3
-names =['left','forward','right']
+names =['left', 'forward', 'right']
 
 
 Y = np_utils.to_categorical(y=label, num_classes=num_classes)
@@ -81,7 +83,9 @@ model.add(Dropout(0.2))
 model.add(Flatten())
 model.add(Dense(64))
 model.add(Activation('relu'))
-model.add(Dropout(0.2))
+model.add(Dense(34))
+model.add(Activation('relu'))
+model.add(Dropout(0.5))
 model.add(Dense(num_classes))
 model.add(Activation('softmax'))
 model.compile(optimizer='adam',loss='mean_squared_error',metrics=["accuracy"])
@@ -92,7 +96,7 @@ model.summary()
 # print('Test accuracy:', score[1])
 
 from keras import callbacks
-model_path = getcwd()+'\\best_autopilot(newTrack).hdf5'
+model_path = getcwd()+'\\best_autopilot(with_Car_test).hdf5'
 
 #Save the model after each epoch if the validation loss improved.
 save_best = callbacks.ModelCheckpoint(model_path, monitor='val_loss', verbose=1,
@@ -107,7 +111,7 @@ callbacks_list = [save_best, early_stop]
 #only  uncomment if gona continue traning
 #model = load_model(model_path)
 
-history =model.fit(X_train, y_train, batch_size=64, epochs=4, validation_data=(X_test, y_test), callbacks=callbacks_list)
+history =model.fit(X_train, y_train, batch_size=64, epochs=50, validation_data=(X_test, y_test), callbacks=callbacks_list)
 
 model = load_model(model_path)
 P = model.predict(img_data[:700:10])
