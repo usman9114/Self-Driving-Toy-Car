@@ -3,6 +3,5 @@ I trained a convolutional neural network (CNN) to map raw pixels from a single f
 
 ![Project Self-driving car](https://github.com/usman9114/SelfDrivingCar/blob/master/IMG_2310.JPG?raw=true)
 
-Video url :https://www.youtube.com/watch?v=y0oO3Z0uLRw
 
 
